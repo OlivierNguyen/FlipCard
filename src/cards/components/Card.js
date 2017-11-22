@@ -26,10 +26,10 @@ export default class Card extends Component {
 
         const animationCardConfig = {
             x: {
-                0: 100,
-                1: 200,
-                2: 170,
-                3: 30,
+                0: 200,
+                1: 400,
+                2: 340,
+                3: 60,
                 4: 0,
             },
             y: {
@@ -37,6 +37,20 @@ export default class Card extends Component {
                 1: 60,
                 2: 0,
                 3: 0,
+                4: 60,
+            },
+            skewY: {
+                0: 0,
+                1: -30,
+                2: 15,
+                3: -15,
+                4: 30,
+            },
+            rotationY: {
+                0: 0,
+                1: 60,
+                2: 180,
+                3: 180,
                 4: 60,
             },
             scale: {
@@ -59,6 +73,8 @@ export default class Card extends Component {
         TweenMax.to(this.card, initial ? 0 : 0.5, {
             x: animationCardConfig.x[i],
             y: animationCardConfig.y[i],
+            skewY: animationCardConfig.skewY[i],
+            rotationY: animationCardConfig.rotationY[i],
             scale: animationCardConfig.scale[i] || 1,
             opacity: 1,
             ease: 'Sine.easeInOut',
