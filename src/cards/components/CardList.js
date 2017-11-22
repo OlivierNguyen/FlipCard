@@ -41,6 +41,8 @@ export default class CardList extends Component {
             <div style={S.container}>
                 {map(this.state.cards, (card, index) => (
                     <Card
+                        width={250}
+                        height={350}
                         key={card.id}
                         backgroundColor={card.color}
                         position={index}

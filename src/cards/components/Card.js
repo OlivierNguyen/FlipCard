@@ -22,22 +22,22 @@ export default class Card extends Component {
     }
 
     moveToPosition(initial) {
-        const { position: i, backgroundColor } = this.props;
+        const { position: i, backgroundColor, width, height } = this.props;
 
         const animationCardConfig = {
             x: {
-                0: 220,
-                1: 440,
-                2: 380,
-                3: 130,
+                0: width / 1.36,
+                1: width / 0.68,
+                2: width / 0.78,
+                3: width / 2.3,
                 4: 0,
             },
             y: {
-                0: 200,
-                1: 100,
+                0: height / 2,
+                1: height / 4,
                 2: 0,
                 3: 0,
-                4: 100,
+                4: height / 4,
             },
             skewY: {
                 0: 0,
@@ -94,8 +94,8 @@ export default class Card extends Component {
 
         const S = {
             container: {
-                height: 400,
-                width: 300,
+                width: this.props.width,
+                height: this.props.height,
                 border: 'solid 1px #bebebe',
                 backgroundColor: this.props.backgroundColor || 'white',
                 position: 'absolute',
