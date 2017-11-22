@@ -31,8 +31,8 @@ export default class CardList extends Component {
     render() {
         const S = {
             container: {
-                width: 600,
-                height: 500,
+                width: 800,
+                height: 600,
                 position: 'relative',
             },
         };

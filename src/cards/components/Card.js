@@ -26,18 +26,18 @@ export default class Card extends Component {
 
         const animationCardConfig = {
             x: {
-                0: 200,
-                1: 400,
-                2: 340,
-                3: 60,
+                0: 220,
+                1: 440,
+                2: 380,
+                3: 130,
                 4: 0,
             },
             y: {
-                0: 100,
-                1: 60,
+                0: 200,
+                1: 100,
                 2: 0,
                 3: 0,
-                4: 60,
+                4: 100,
             },
             skewY: {
                 0: 0,
@@ -73,8 +73,8 @@ export default class Card extends Component {
             0: 5,
             1: 4,
             2: 2,
-            3: 3,
-            4: 4,
+            3: 1,
+            4: 2,
         }[String(i)];
 
         TweenMax.to(this.card, initial ? 0 : 0.5, {
@@ -94,8 +94,8 @@ export default class Card extends Component {
 
         const S = {
             container: {
-                height: 300,
-                width: 200,
+                height: 400,
+                width: 300,
                 border: 'solid 1px #bebebe',
                 backgroundColor: this.props.backgroundColor || 'white',
                 position: 'absolute',
