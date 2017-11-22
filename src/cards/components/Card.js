@@ -26,25 +26,25 @@ export default class Card extends Component {
 
         const animationCardConfig = {
             x: {
-                0: width / 1.36,
-                1: width / 0.68,
-                2: width / 0.78,
-                3: width / 2.3,
+                0: 220,
+                1: 440,
+                2: 380,
+                3: 130,
                 4: 0,
             },
             y: {
-                0: height / 2,
-                1: height / 4,
+                0: 140,
+                1: 80,
                 2: 0,
                 3: 0,
-                4: height / 4,
+                4: 80,
             },
             skewY: {
                 0: 0,
-                1: -30,
+                1: -50,
                 2: 15,
                 3: -15,
-                4: 30,
+                4: 50,
             },
             rotationY: {
                 0: 0,
@@ -56,8 +56,8 @@ export default class Card extends Component {
             scale: {
                 0: 1,
                 1: 0.8,
-                2: 0.6,
-                3: 0.6,
+                2: 0.5,
+                3: 0.5,
                 4: 0.8,
             },
             backgroundColor: {
@@ -66,6 +66,20 @@ export default class Card extends Component {
                 2: '#bdbdbd',
                 3: '#bdbdbd',
                 4: backgroundColor,
+            },
+            opacityFront: {
+                0: 1,
+                1: 1,
+                2: 0,
+                3: 0,
+                4: 1,
+            },
+            opacityBack: {
+                0: 0,
+                1: 0,
+                2: 1,
+                3: 1,
+                4: 0,
             },
         };
 
@@ -86,6 +100,19 @@ export default class Card extends Component {
             backgroundColor: animationCardConfig.backgroundColor[i],
             opacity: 1,
             ease: 'Sine.easeInOut',
+            onComplete: () => {},
+        });
+
+        TweenMax.to(this.frontCard, initial ? 0 : 0.5, {
+            opacity: animationCardConfig.opacityFront[i],
+            ease: 'Sine.easeInOut',
+            onComplete: () => {},
+        });
+
+        TweenMax.to(this.backCard, initial ? 0 : 0.5, {
+            opacity: animationCardConfig.opacityBack[i],
+            ease: 'Sine.easeInOut',
+            onComplete: () => {},
         });
     }
 
@@ -99,15 +126,25 @@ export default class Card extends Component {
                 border: 'solid 1px #bebebe',
                 backgroundColor: this.props.backgroundColor || 'white',
                 position: 'absolute',
+                borderRadius: 10,
             },
-            back: {
-                backgroundColor: '#bdbdbd',
+            backContainer: {
+                position: 'absolute',
             },
+            frontContainer: {},
         };
 
         return (
             <div ref={ref => (this.card = ref)} style={S.container}>
-                {this.props.title}
+                <div style={S.backContainer} ref={ref => (this.backCard = ref)}>
+                    BACK
+                </div>
+                <div
+                    style={S.frontContainer}
+                    ref={ref => (this.frontCard = ref)}
+                >
+                    {this.props.title}
+                </div>
             </div>
         );
     }
