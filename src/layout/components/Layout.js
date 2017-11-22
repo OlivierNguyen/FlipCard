@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import CardLists from '../../cards/components/CardList';
+import CardList from '../../cards/components/CardList';
 
 export default class Layout extends Component {
     render() {
         const S = {
-            container: {},
+            container: {
+                display: 'flex',
+                justifyContent: 'center',
+            },
+            cardList: {},
         };
 
         return (
             <div style={S.container}>
-                <CardLists />
+                <div style={S.cardList}>
+                    <CardList />
+                </div>
             </div>
         );
     }

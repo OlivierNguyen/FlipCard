@@ -22,7 +22,7 @@ export default class Card extends Component {
     }
 
     moveToPosition(initial) {
-        const i = this.props.position;
+        const { position: i, backgroundColor } = this.props;
 
         const animationCardConfig = {
             x: {
@@ -60,6 +60,13 @@ export default class Card extends Component {
                 3: 0.6,
                 4: 0.8,
             },
+            backgroundColor: {
+                0: backgroundColor,
+                1: backgroundColor,
+                2: '#bdbdbd',
+                3: '#bdbdbd',
+                4: backgroundColor,
+            },
         };
 
         this.card.style.zIndex = {
@@ -76,12 +83,15 @@ export default class Card extends Component {
             skewY: animationCardConfig.skewY[i],
             rotationY: animationCardConfig.rotationY[i],
             scale: animationCardConfig.scale[i] || 1,
+            backgroundColor: animationCardConfig.backgroundColor[i],
             opacity: 1,
             ease: 'Sine.easeInOut',
         });
     }
 
     render() {
+        const { position } = this.props;
+
         const S = {
             container: {
                 height: 300,
@@ -90,11 +100,14 @@ export default class Card extends Component {
                 backgroundColor: this.props.backgroundColor || 'white',
                 position: 'absolute',
             },
+            back: {
+                backgroundColor: '#bdbdbd',
+            },
         };
 
         return (
             <div ref={ref => (this.card = ref)} style={S.container}>
-                Card {this.props.title}
+                {this.props.title}
             </div>
         );
     }
