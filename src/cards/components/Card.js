@@ -81,19 +81,19 @@ export default class Card extends Component {
                 3: 1,
                 4: 0,
             },
-            zIndex: {
-                0: 100,
-                1: 10,
-                2: 2,
-                3: 0,
-                4: 2,
-            },
         };
+
+        this.card.style.zIndex = {
+            0: 100,
+            1: 10,
+            2: 2,
+            3: 0,
+            4: 2,
+        }[i];
 
         TweenMax.to(this.card, initial ? 0 : 0.5, {
             x: animationCardConfig.x[i],
             y: animationCardConfig.y[i],
-            zIndex: animationCardConfig.zIndex[i],
             skewY: animationCardConfig.skewY[i],
             rotationY: animationCardConfig.rotationY[i],
             scale: animationCardConfig.scale[i] || 1,
