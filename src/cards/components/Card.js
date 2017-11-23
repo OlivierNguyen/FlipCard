@@ -127,6 +127,7 @@ export default class Card extends Component {
                 backgroundColor: this.props.backgroundColor || 'white',
                 position: 'absolute',
                 borderRadius: 10,
+                cursor: 'pointer',
             },
             backContainer: {
                 position: 'absolute',
@@ -135,7 +136,11 @@ export default class Card extends Component {
         };
 
         return (
-            <div ref={ref => (this.card = ref)} style={S.container}>
+            <div
+                ref={ref => (this.card = ref)}
+                style={S.container}
+                onClick={() => this.props.onClick(this.props.position)}
+            >
                 <div style={S.backContainer} ref={ref => (this.backCard = ref)}>
                     BACK
                 </div>

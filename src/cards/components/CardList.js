@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import map from 'lodash/map';
 import Card from './Card';
 import { MOCK_CARDS } from '../../constants';
-import { onBack, onForward } from '../../utils/utils';
+import { onBack, onForward, onBackUntilPosition } from '../../utils/utils';
 
 export default class CardList extends Component {
     constructor(props) {
@@ -13,6 +13,7 @@ export default class CardList extends Component {
             cards: MOCK_CARDS,
         };
 
+        this.goTo = this.goTo.bind(this);
         this.goToNextCard = this.goToNextCard.bind(this);
     }
 
@@ -21,6 +22,12 @@ export default class CardList extends Component {
             cards: forward
                 ? onForward(prevState.cards)
                 : onBack(prevState.cards),
+        }));
+    }
+
+    goTo(position) {
+        this.setState(prevState => ({
+            cards: onBackUntilPosition(position, prevState.cards)
         }));
     }
 
@@ -41,6 +48,7 @@ export default class CardList extends Component {
             <div style={S.container}>
                 {map(this.state.cards, (card, index) => (
                     <Card
+                        onClick={position => this.goTo(position)}
                         width={250}
                         height={350}
                         key={card.id}
