@@ -26,11 +26,11 @@ export default class Card extends Component {
 
         const animationCardConfig = {
             x: {
-                0: 110,
-                1: 300,
-                2: 220,
+                0: 90,
+                1: 250,
+                2: 200,
                 3: 10,
-                4: -90,
+                4: -80,
             },
             y: {
                 0: 140,
@@ -48,10 +48,10 @@ export default class Card extends Component {
             },
             rotationY: {
                 0: 0,
-                1: 60,
+                1: -60,
                 2: 0,
                 3: 0,
-                4: 60,
+                4: -60,
             },
             scale: {
                 0: 1,
@@ -82,8 +82,8 @@ export default class Card extends Component {
                 4: 0,
             },
             zIndex: {
-                0: 5,
-                1: 4,
+                0: 100,
+                1: 10,
                 2: 2,
                 3: 0,
                 4: 2,

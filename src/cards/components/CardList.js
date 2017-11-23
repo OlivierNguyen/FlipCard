@@ -38,8 +38,8 @@ export default class CardList extends Component {
     render() {
         const S = {
             container: {
-                width: 460,
-                height: 570,
+                width: 400,
+                height: 500,
                 position: 'relative',
             },
         };
@@ -49,8 +49,8 @@ export default class CardList extends Component {
                 {map(this.state.cards, (card, index) => (
                     <Card
                         onClick={position => this.goTo(position)}
-                        width={250}
-                        height={350}
+                        width={220}
+                        height={300}
                         key={card.id}
                         backgroundColor={card.color}
                         frontImageUrl={card.frontImageUrl}
