@@ -38,8 +38,8 @@ export default class CardList extends Component {
     render() {
         const S = {
             container: {
-                width: 800,
-                height: 600,
+                width: 460,
+                height: 570,
                 position: 'relative',
             },
         };
@@ -53,6 +53,7 @@ export default class CardList extends Component {
                         height={350}
                         key={card.id}
                         backgroundColor={card.color}
+                        frontImageUrl={card.frontImageUrl}
                         position={index}
                         title={card.title}
                     />

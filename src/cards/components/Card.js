@@ -26,11 +26,11 @@ export default class Card extends Component {
 
         const animationCardConfig = {
             x: {
-                0: 220,
-                1: 440,
-                2: 380,
-                3: 130,
-                4: 0,
+                0: 110,
+                1: 300,
+                2: 220,
+                3: 10,
+                4: -90,
             },
             y: {
                 0: 140,
@@ -49,8 +49,8 @@ export default class Card extends Component {
             rotationY: {
                 0: 0,
                 1: 60,
-                2: 180,
-                3: 180,
+                2: 0,
+                3: 0,
                 4: 60,
             },
             scale: {
@@ -81,19 +81,19 @@ export default class Card extends Component {
                 3: 1,
                 4: 0,
             },
+            zIndex: {
+                0: 5,
+                1: 4,
+                2: 2,
+                3: 0,
+                4: 2,
+            },
         };
-
-        this.card.style.zIndex = {
-            0: 5,
-            1: 4,
-            2: 2,
-            3: 1,
-            4: 2,
-        }[String(i)];
 
         TweenMax.to(this.card, initial ? 0 : 0.5, {
             x: animationCardConfig.x[i],
             y: animationCardConfig.y[i],
+            zIndex: animationCardConfig.zIndex[i],
             skewY: animationCardConfig.skewY[i],
             rotationY: animationCardConfig.rotationY[i],
             scale: animationCardConfig.scale[i] || 1,
@@ -142,13 +142,25 @@ export default class Card extends Component {
                 onClick={() => this.props.onClick(this.props.position)}
             >
                 <div style={S.backContainer} ref={ref => (this.backCard = ref)}>
-                    BACK
+                    <img
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                        }}
+                        src="https://pre00.deviantart.net/cb44/th/pre/i/2016/259/5/a/pokemon_card_backside_in_high_resolution_by_atomicmonkeytcg-dah43cy.png"
+                    />
                 </div>
                 <div
                     style={S.frontContainer}
                     ref={ref => (this.frontCard = ref)}
                 >
-                    {this.props.title}
+                    <img
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                        }}
+                        src={this.props.frontImageUrl}
+                    />
                 </div>
             </div>
         );
