@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import TweenMax from 'gsap';
+import TimelineMax from 'gsap/TimelineMax';
 
 export default class Card extends Component {
     static propTypes = {
@@ -11,14 +12,54 @@ export default class Card extends Component {
     constructor(props) {
         super(props);
         this.moveToPosition = this.moveToPosition.bind(this);
+        this.goTo = this.goTo.bind(this);
     }
 
     componentDidMount() {
         this.moveToPosition(true);
     }
 
-    componentDidUpdate() {
-        this.moveToPosition(false);
+    componentDidUpdate(prevProps) {
+        if (!this.props.goToUp) {
+            this.moveToPosition(false);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.goToUp !== this.props.goToUp) {
+            const animationConfig = {
+                delay: {
+                    0: 1,
+                    1: 1.1,
+                    2: 0.9,
+                    3: 0.7,
+                    4: 0.5,
+                },
+            };
+
+            if (this.props.position !== 0) {
+                TweenMax.to(
+                    this.card,
+                    animationConfig.delay[this.props.position],
+                    {
+                        y: nextProps.goToUp ? -500 : 0,
+                        opacity: nextProps.goToUp ? 0 : 1,
+                        ease: 'Sine.easeIn',
+                        scale: nextProps.goToUp ? 0.4 : 1,
+                    }
+                );
+            } else {
+                TweenMax.to(
+                    this.card,
+                    animationConfig.delay[this.props.position],
+                    {
+                        ease: 'linear',
+                        rotationY: 180,
+                        scale: nextProps.goToUp ? 1.5 : 1,
+                    }
+                );
+            }
+        }
     }
 
     moveToPosition(initial) {
@@ -49,8 +90,8 @@ export default class Card extends Component {
             rotationY: {
                 0: 0,
                 1: -60,
-                2: 0,
-                3: 0,
+                2: 180,
+                3: 180,
                 4: -60,
             },
             scale: {
@@ -59,13 +100,6 @@ export default class Card extends Component {
                 2: 0.5,
                 3: 0.5,
                 4: 0.8,
-            },
-            backgroundColor: {
-                0: backgroundColor,
-                1: backgroundColor,
-                2: '#bdbdbd',
-                3: '#bdbdbd',
-                4: backgroundColor,
             },
             opacityFront: {
                 0: 1,
@@ -91,30 +125,41 @@ export default class Card extends Component {
             4: 2,
         }[i];
 
-        TweenMax.to(this.card, initial ? 0 : 0.5, {
-            x: animationCardConfig.x[i],
-            y: animationCardConfig.y[i],
-            skewY: animationCardConfig.skewY[i],
-            rotationY: animationCardConfig.rotationY[i],
-            scale: animationCardConfig.scale[i] || 1,
-            backgroundColor: animationCardConfig.backgroundColor[i],
-            opacity: 1,
-            ease: 'Sine.easeInOut',
-            onComplete: () => {},
-        });
+        this.backCard.style.zIndex = {
+            0: 0,
+            1: 5,
+            2: 10,
+            3: 10,
+            4: 3,
+        }[i];
 
-        TweenMax.to(this.frontCard, initial ? 0 : 0.5, {
-            opacity: animationCardConfig.opacityFront[i],
-            ease: 'Sine.easeInOut',
-            onComplete: () => {},
-        });
+        const timeLine = new TimelineMax();
 
-        TweenMax.to(this.backCard, initial ? 0 : 0.5, {
-            opacity: animationCardConfig.opacityBack[i],
-            ease: 'Sine.easeInOut',
-            onComplete: () => {},
-        });
+        timeLine
+            .to(this.card, 0.5, {
+                x: animationCardConfig.x[i],
+                y: animationCardConfig.y[i],
+                skewY: animationCardConfig.skewY[i],
+                scale: animationCardConfig.scale[i] || 1,
+                rotationY: animationCardConfig.rotationY[i],
+                opacity: 1,
+                ease: 'Sine.easeInOut',
+                onComplete: () => {},
+            })
+            .to(
+                this.backCard,
+                0.5,
+                {
+                    rotationY: animationCardConfig.rotationY[i] - 180,
+                    opacity: 1,
+                    ease: 'Sine.easeInOut',
+                    onComplete: () => {},
+                },
+                0
+            );
     }
+
+    goTo() {}
 
     render() {
         const { position } = this.props;
@@ -123,16 +168,12 @@ export default class Card extends Component {
             container: {
                 width: this.props.width,
                 height: this.props.height,
-                border: 'solid 1px #bebebe',
-                backgroundColor: this.props.backgroundColor || 'white',
-                position: 'absolute',
-                borderRadius: 10,
-                cursor: 'pointer',
-            },
-            backContainer: {
                 position: 'absolute',
             },
-            frontContainer: {},
+            imageContainer: {
+                position: 'absolute',
+                backfaceVisibility: 'hidden',
+            },
         };
 
         return (
@@ -141,7 +182,10 @@ export default class Card extends Component {
                 style={S.container}
                 onClick={() => this.props.onClick(this.props.position)}
             >
-                <div style={S.backContainer} ref={ref => (this.backCard = ref)}>
+                <div
+                    style={S.imageContainer}
+                    ref={ref => (this.backCard = ref)}
+                >
                     <img
                         style={{
                             width: '100%',
@@ -150,10 +194,7 @@ export default class Card extends Component {
                         src="https://pre00.deviantart.net/cb44/th/pre/i/2016/259/5/a/pokemon_card_backside_in_high_resolution_by_atomicmonkeytcg-dah43cy.png"
                     />
                 </div>
-                <div
-                    style={S.frontContainer}
-                    ref={ref => (this.frontCard = ref)}
-                >
+                <div style={S.imageContainer}>
                     <img
                         style={{
                             width: '100%',
@@ -161,6 +202,7 @@ export default class Card extends Component {
                         }}
                         src={this.props.frontImageUrl}
                     />
+                    <div onClick={this.goTo}>CLICK HERE</div>
                 </div>
             </div>
         );
